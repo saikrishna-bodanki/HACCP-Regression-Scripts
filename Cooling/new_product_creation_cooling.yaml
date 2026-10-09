@@ -1,0 +1,30 @@
+
+appId: com.mycawan.haccp.preprod
+
+---
+- launchApp
+- extendedWaitUntil:
+    visible: "Antoine GRIEZMANN"
+    timeout: 20000
+- tapOn: "Antoine GRIEZMANN"
+- tapOn: "1"
+- tapOn: "2"
+- tapOn: "3"
+- tapOn: "4"
+- tapOn:
+    text: "module icon"
+    index: 4
+- tapOn: "Cooling"
+- tapOn: "Print"
+- tapOn:
+    text: "icon"
+    index: 2
+- tapOn: "icon"
+- tapOn:
+    point: 12%,37%
+- inputText: "0123"
+- tapOn: "Next"
+- tapOn: "radio empty"
+- tapOn: "Create"
+- assertVisible: "0123"
+

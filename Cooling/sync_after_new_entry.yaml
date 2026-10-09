@@ -1,0 +1,39 @@
+appId: com.mycawan.haccp.preprod
+
+---
+- launchApp
+- extendedWaitUntil:
+    visible: "Antoine GRIEZMANN"
+    timeout: 20000
+- tapOn: "Antoine GRIEZMANN"
+- tapOn: "1"
+- tapOn: "2"
+- tapOn: "3"
+- tapOn: "4"
+- tapOn:
+    text: "module icon"
+    index: 4
+- tapOn: "Cooling"
+- tapOn: "Print"
+- tapOn: "icon"
+- tapOn: "1. Assaisonnement provence"
+- tapOn: "Chambre froide"
+- tapOn: "Already ended"
+- tapOn: "6"
+- tapOn: "Validate"
+- assertVisible: "Validate"
+- tapOn: "Validate"
+- assertVisible: "6"
+- tapOn: "6"
+- tapOn: "Validate"
+- tapOn: "Back icon"
+- assertVisible: "Synchronize"
+- tapOn: "Synchronize"
+- extendedWaitUntil:
+    visible: "Synchronization done"
+    timeout: 20000
+- tapOn: "Close icon"
+
+
+
+

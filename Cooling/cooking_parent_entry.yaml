@@ -1,0 +1,44 @@
+appId: com.mycawan.haccp.preprod
+
+---
+- launchApp
+- extendedWaitUntil:
+    visible: "Antoine GRIEZMANN"
+    timeout: 20000
+- tapOn: "Antoine GRIEZMANN"
+- tapOn: "1"
+- tapOn: "2"
+- tapOn: "3"
+- tapOn: "4"
+- tapOn: "Product temperature change"
+- tapOn: "Product cooking"
+- tapOn: "Print"
+- tapOn:
+    text: "icon"
+    index: 2
+- tapOn: "1. Assaisonnement provence"
+- tapOn: "Vapeur"
+- tapOn: "Quantity and unit"
+- tapOn: "6"
+- tapOn: "Choose a unit"
+- tapOn: "Kilo"
+- tapOn: "Validate"
+- tapOn: "Already ended"
+- tapOn: "6"
+- tapOn: "Validate"
+- tapOn: "Validate"
+- tapOn: "9"
+- tapOn: "Validate"
+- tapOn: "Back icon"
+- tapOn: "Product temperature change"
+- tapOn: "Cooling"
+- tapOn: "Print"
+- assertVisible: "Cooking"
+- tapOn: "Cooking"
+- tapOn: "Autre"
+- tapOn: "Already ended"
+- tapOn: "9"
+- tapOn: "Validate"
+- tapOn: "Validate"
+- tapOn: "8"
+- tapOn: "Validate"
