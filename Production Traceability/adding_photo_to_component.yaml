@@ -1,0 +1,28 @@
+appId: com.mycawan.haccp.preprod
+
+---
+- launchApp
+- extendedWaitUntil:
+    visible: "Antoine GRIEZMANN"
+    timeout: 20000
+- tapOn: "Antoine GRIEZMANN"
+- tapOn: "1"
+- tapOn: "2"
+- tapOn: "3"
+- tapOn: "4"
+- tapOn: "Traceability"
+- tapOn: "Production traceability"
+- tapOn: "Print"
+- assertVisible: "Burger Savoyard"
+- tapOn: "Burger Savoyard"
+- assertVisible:
+    text: "icon"
+    index: 1
+- tapOn:
+    text: "icon"
+    index: 1
+- tapOn:
+    text: "icon"
+    index: 1
+- tapOn:
+    id: "llTakePictureBtn"

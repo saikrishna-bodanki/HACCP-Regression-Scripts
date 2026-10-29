@@ -1,0 +1,49 @@
+appId: com.mycawan.haccp.preprod
+
+---
+- launchApp
+- extendedWaitUntil:
+    visible: "Antoine GRIEZMANN"
+    timeout: 20000
+- tapOn: "Antoine GRIEZMANN"
+- tapOn: "1"
+- tapOn: "2"
+- tapOn: "3"
+- tapOn: "4"
+- tapOn: "Traceability"
+- tapOn: "Production traceability"
+- tapOn: "Print"
+- assertVisible: "Burger Savoyard"
+- tapOn: "Burger Savoyard"
+- tapOn: "Back icon"
+- tapOn: "Vacuum packing"
+- tapOn: "Add a vacuum packing"
+- assertVisible: "Burger Savoyard"
+- tapOn: "Burger Savoyard"
+- tapOn:
+    id: "llHomeClick"
+- tapOn: "Traceability"
+- tapOn: "Production traceability"
+- tapOn: "Burger Savoyard"
+- tapOn: "Utilisé (0)"
+- assertVisible: "Vacuum packing"
+- evalScript: |
+    console.log("Utilise adding successfull")
+- tapOn: "Back icon"
+- tapOn: "Vacuum packing"
+- tapOn: "Burger Savoyard"
+- tapOn: "Delete"
+- tapOn: "Delete"
+- tapOn:
+    id: "llHomeClick"
+- tapOn: "Traceability"
+- tapOn: "Production traceability"
+- tapOn: "Burger Savoyard"
+- assertVisible: "Utilisé (1)"
+- tapOn: "Utilisé (1)"
+- assertVisible: "Vacuum packing"
+- evalScript: |
+    console.log("Utilise still displaying after deleting vacuum packing entry")
+- assertNotVisible: "Vacuum packing"
+- evalScript: |
+    console.log("Utilise entry deleted")
