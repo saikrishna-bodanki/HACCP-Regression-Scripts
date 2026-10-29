@@ -1,0 +1,44 @@
+appId: com.mycawan.haccp.preprod
+---
+- launchApp
+- evalScript: ${output.myText = '0' + Math.floor(1000 + Math.random() * 9000)}
+- extendedWaitUntil:
+    visible: "Antoine GRIEZMANN"
+    timeout: 20000
+- tapOn: "Antoine GRIEZMANN"
+- tapOn: "1"
+- tapOn: "2"
+- tapOn: "3"
+- tapOn: "4"
+- tapOn: "Product temperature change"
+- tapOn: "Product cooking"
+- tapOn: "Print"
+- tapOn: "icon"
+- tapOn: "1. Assaisonnement provence"
+- tapOn: "Vapeur"
+- tapOn: "Quantity and unit"
+- tapOn: "8"
+- tapOn: "Choose a unit"
+- tapOn: "Kilo"
+- tapOn: "Validate"
+- tapOn: "Already ended"
+- tapOn: "5"
+- tapOn: "Validate"
+- tapOn: "Validate"
+- tapOn: "9"
+- tapOn: "Validate"
+- tapOn: "Back icon"
+- assertVisible: "Synchronize"
+- tapOn: "Synchronize"
+- assertVisible: "Synchronization done"
+- runFlow:
+    when:
+      visible: 'Synchronization done'
+    commands:
+      - copyTextFrom:
+          text: 'Synchronization done'
+      - evalScript: ${console.log('Sync done sucessfully')}
+- tapOn: "Close icon"
+
+
+

@@ -1,0 +1,22 @@
+appId: com.mycawan.haccp.preprod
+---
+- launchApp
+- evalScript: ${output.myText = '0' + Math.floor(1000 + Math.random() * 9000)}
+- extendedWaitUntil:
+    visible: "Antoine GRIEZMANN"
+    timeout: 20000
+- tapOn: "Antoine GRIEZMANN"
+- tapOn: "1"
+- tapOn: "2"
+- tapOn: "3"
+- tapOn: "4"
+- tapOn: "Product temperature change"
+- tapOn: "Product cooking"
+- tapOn: "Print"
+- tapOn: "icon"
+- tapOn: "icon"
+- inputText: ${output.myText}
+- tapOn: "Next"
+- tapOn: "radio empty"
+- tapOn: "Create"
+- assertVisible: "New cooking"
