@@ -1,0 +1,40 @@
+appId: com.mycawan.haccp.preprod
+
+---
+- launchApp
+- extendedWaitUntil:
+    visible: "Antoine GRIEZMANN"
+    timeout: 20000
+- tapOn: "Antoine GRIEZMANN"
+- tapOn: "1"
+- tapOn: "2"
+- tapOn: "3"
+- tapOn: "4"
+- tapOn: "Traceability"
+- tapOn:
+    text: "Traceability"
+    index: 1
+- tapOn:
+    text: "Print"
+    index: 1
+- tapOn:
+    id: "llTakePictureBtn"
+- tapOn:
+    id: "ibComplete"
+- assertVisible: "1. Assaisonnement provence"
+- tapOn: "1. Assaisonnement provence"
+- tapOn: "trailing icon"
+- tapOn: "Confirm"
+- tapOn: "Date"
+- tapOn:
+    point: 48%,65%
+- tapOn: "OK"
+- tapOn: "Validate"
+- tapOn: "Burger icon"
+- assertVisible: "Load"
+- tapOn: "Load"
+- assertVisible: "Older pictures"
+- assertVisible:
+    point: 4%,31%
+- evalScript: |
+    console.log("entry date changed")

@@ -1,0 +1,27 @@
+appId: com.mycawan.haccp.preprod
+
+---
+- launchApp
+- extendedWaitUntil:
+    visible: "Antoine GRIEZMANN"
+    timeout: 20000
+- tapOn: "Antoine GRIEZMANN"
+- tapOn: "1"
+- tapOn: "2"
+- tapOn: "3"
+- tapOn: "4"
+- tapOn: "Traceability"
+- tapOn:
+    text: "Traceability"
+    index: 1
+- tapOn:
+    text: "Print"
+    index: 1
+- tapOn:
+    id: "llTakePictureBtn"
+- tapOn:
+    id: "ibComplete"
+- assertVisible: "1. Assaisonnement provence"
+- tapOn: "1. Assaisonnement provence"
+- tapOn: "Delete"
+- tapOn: "Delete"
