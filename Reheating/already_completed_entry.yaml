@@ -1,0 +1,28 @@
+appId: com.mycawan.haccp.preprod
+
+---
+- launchApp
+- evalScript: ${output.myText = '0' + Math.floor(1000 + Math.random() * 9000)}
+- runFlow:
+    commands:
+      - evalScript: ${console.log(output.myText)}
+- extendedWaitUntil:
+    visible: "Antoine GRIEZMANN"
+    timeout: 20000
+- tapOn: "Antoine GRIEZMANN"
+- tapOn: "1"
+- tapOn: "2"
+- tapOn: "3"
+- tapOn: "4"
+- tapOn: "Product temperature change"
+- tapOn: "Reheating"
+- tapOn: "Add a reheating"
+- assertVisible: "1. Assaisonnement provence"
+- tapOn: "1. Assaisonnement provence"
+- tapOn: "Already finished"
+- tapOn: "9"
+- tapOn: "Validate"
+- tapOn: "Validate"
+- tapOn: "3"
+- tapOn: "Validate"
+
