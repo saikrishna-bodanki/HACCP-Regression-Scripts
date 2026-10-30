@@ -1,0 +1,71 @@
+appId: com.mycawan.haccp.preprod
+
+---
+- launchApp
+- evalScript: ${output.myText = '0' + Math.floor(1000 + Math.random() * 9000)}
+- runFlow:
+    commands:
+      - evalScript: ${console.log(output.myText)}
+- extendedWaitUntil:
+    visible: "Antoine GRIEZMANN"
+    timeout: 20000
+- tapOn: "Antoine GRIEZMANN"
+- tapOn: "1"
+- tapOn: "2"
+- tapOn: "3"
+- tapOn: "4"
+- tapOn: "Product temperature change"
+- tapOn: "Freezing"
+- tapOn: "Add freezing"
+
+- runFlow:
+    when:
+      visible:
+        id: "tvEmpty"
+    commands:
+      - tapOn:
+          id: "ibAdd"
+      - tapOn: "Product name"
+      - inputText: ${output.myText}
+      - tapOn: "Save"
+      - tapOn: "Create"
+
+- runFlow:
+    when:
+      notVisible:
+        id: "tvEmpty"
+    commands:
+      - extendedWaitUntil:
+          visible:
+            id: "rlWrapper"
+          timeout: 10000
+      - tapOn:
+          id: "rlWrapper"
+
+- tapOn: "Congélateur"
+- tapOn: "Enter a quantity"
+- tapOn: "5"
+- tapOn: "Kilo"
+- tapOn: "Validate"
+- tapOn: "Start"
+- tapOn: "5"
+- tapOn: "Validate"
+- assertVisible:
+    point: 4%,20%
+- tapOn:
+    point: 6%,21%
+- tapOn: "Stop"
+- tapOn: "5"
+- tapOn: "Validate"
+
+
+
+
+
+
+
+
+
+
+
+
