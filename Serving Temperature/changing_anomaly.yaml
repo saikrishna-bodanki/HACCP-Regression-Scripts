@@ -1,0 +1,27 @@
+appId: com.mycawan.haccp.preprod
+
+---
+- launchApp
+- tapOn:
+    point: 35%,56%
+- extendedWaitUntil:
+    visible: "Antoine GRIEZMANN"
+    timeout: 20000
+- tapOn: "Antoine GRIEZMANN"
+- tapOn: "1"
+- tapOn: "2"
+- tapOn: "3"
+- tapOn: "4"
+- tapOn: "Product temperature"
+- tapOn: "Serving temperature"
+- tapOn: "Print"
+- assertVisible: "1. Assaisonnement provence"
+- tapOn: "1. Assaisonnement provence"
+- tapOn:
+    text: "trailing icon"
+    index: 2
+- tapOn: "6"
+- tapOn: "Validate"
+- assertVisible: "Other"
+- tapOn: "Other"
+- tapOn: "Validate"
