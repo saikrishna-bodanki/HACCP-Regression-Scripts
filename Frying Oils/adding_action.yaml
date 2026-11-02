@@ -1,0 +1,40 @@
+appId: com.mycawan.haccp.preprod
+
+---
+- launchApp
+- tapOn:
+    point: 35%,56%
+- extendedWaitUntil:
+    visible: "Antoine GRIEZMANN"
+    timeout: 20000
+- tapOn: "Antoine GRIEZMANN"
+- tapOn: "1"
+- tapOn: "2"
+- tapOn: "3"
+- tapOn: "4"
+- tapOn: "Frying oils"
+- tapOn: "Print"
+- assertVisible: "Friteuse 1"
+- tapOn: "Friteuse 1"
+- tapOn:
+    point: 45%,50%
+- tapOn: "Validate"
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

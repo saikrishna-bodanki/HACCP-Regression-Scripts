@@ -1,0 +1,38 @@
+appId: com.mycawan.haccp.preprod
+
+---
+- launchApp
+- evalScript: ${output.myText = '0' + Math.floor(1000 + Math.random() * 9000)}
+- tapOn:
+    point: 35%,56%
+- extendedWaitUntil:
+    visible: "Antoine GRIEZMANN"
+    timeout: 20000
+- tapOn: "Antoine GRIEZMANN"
+- tapOn: "1"
+- tapOn: "2"
+- tapOn: "3"
+- tapOn: "4"
+- tapOn: "Burger icon"
+- tapOn: "Parameters"
+- tapOn: "Fryers"
+- tapOn:
+    id: "ibAdd"
+- tapOn: "Enter the name"
+- tapOn:
+    id: "etValue"
+- inputText: ${output.myText}
+- tapOn: "Save"
+- tapOn: "Save"
+- tapOn:
+    id: "llHomeClick"
+- tapOn:
+    point: 80%,83%
+- tapOn: "Synchronize"
+- assertVisible: "Synchronization done"
+- tapOn: "Close icon"
+- tapOn: "Frying oils"
+- tapOn: "Print"
+- assertVisible: ${output.myText}
+- tapOn: ${output.myText}
+
