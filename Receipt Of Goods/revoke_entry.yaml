@@ -1,0 +1,40 @@
+appId: com.mycawan.haccp.preprod
+---
+- runFlow: ../login.yaml
+- tapOn: "Receipt of goods"
+- tapOn: "Add an operation"
+- assertVisible: "METRO"
+- tapOn: "METRO"
+- assertVisible: "Fruits & Légumes"
+- tapOn: "Fruits & Légumes"
+- assertVisible: "Select a product"
+- tapOn: "Select a product"
+- assertVisible: "1. Assaisonnement provence"
+- tapOn: "1. Assaisonnement provence"
+- tapOn: "Enter a quantity"
+- tapOn: "5"
+- tapOn: "Kilo"
+- tapOn: "Validate"
+- tapOn:
+    id: "ibPhoto"
+- tapOn:
+    id: "llTakePictureBtn"
+- tapOn:
+    id: "ibComplete"
+- tapOn: "Type the delivery note number"
+- inputText: "value"
+- tapOn: "Save"
+- tapOn: "Type a UBD"
+- evalScript: ${output.today = new Date().getDate().toString()}
+- tapOn: ${output.today}
+- tapOn: "OK"
+- tapOn: "Type the truck temperature"
+- tapOn: "6"
+- tapOn: "Validate"
+- tapOn: "Accept"
+- assertVisible: "Cancel"
+- tapOn: "Cancel"
+- tapOn: "Confirm"
+- assertVisible: "Not finalized"
+- evalScript: |
+    console.log("Entry Revoked Successfully")
