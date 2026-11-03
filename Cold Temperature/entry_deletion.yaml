@@ -1,0 +1,19 @@
+appId: com.mycawan.haccp.preprod
+---
+- runFlow: ../login.yaml
+
+- tapOn: "Product temperature"
+- tapOn: "Cold temperature"
+- tapOn: "Print"
+- assertVisible: "Agneau"
+- tapOn: "Agneau"
+- tapOn: "Temperature"
+- tapOn: "1"
+- tapOn: "Validate"
+- tapOn: "Validate"
+- assertVisible: "Agneau"
+- tapOn: "Agneau"
+- tapOn: "Delete"
+- tapOn: "Delete"
+
+

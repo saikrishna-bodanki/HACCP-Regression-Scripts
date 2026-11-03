@@ -1,0 +1,28 @@
+appId: com.mycawan.haccp.preprod
+---
+- evalScript: ${output.myText = '0' + Math.floor(1000 + Math.random() * 9000)}
+
+- runFlow: ../login.yaml
+
+- tapOn: "Product temperature"
+- tapOn: "Cold temperature"
+- tapOn: "Print"
+- tapOn: "icon"
+- tapOn:
+    point: 9%,34%
+- inputText: ${output.myText}
+- tapOn: "Next"
+- tapOn: "Create"
+- assertVisible: "New check"
+- tapOn: "Temperature"
+- tapOn: "6"
+- tapOn: "Validate"
+- tapOn: "Validate"
+- assertVisible: ${output.myText}
+- tapOn: ${output.myText}
+- tapOn: "Delete"
+- tapOn: "Delete"
+
+
+
+

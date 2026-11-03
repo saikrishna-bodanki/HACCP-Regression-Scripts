@@ -1,0 +1,23 @@
+appId: com.mycawan.haccp.preprod
+---
+- runFlow: ../login.yaml
+
+- tapOn: "Product temperature"
+- tapOn: "Cold temperature"
+- tapOn: "Print"
+- assertVisible:
+    text: "icon"
+    index: 2
+- tapOn:
+    text: "icon"
+    index: 2
+- assertVisible: "beazzzzz"
+- tapOn: "beazzzzz"
+- assertVisible:
+    point: 9%,19%
+- evalScript: |
+    console.log("Filters Added Successfully")
+- assertNotVisible:
+    point: 9%,19%
+- evalScript: |
+    console.log("Filters Not Available")
