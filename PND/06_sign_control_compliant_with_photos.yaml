@@ -1,0 +1,69 @@
+# SMOKE / E2E - Sign a task, add a sign photo, control it as Compliant,
+# add a control photo, open the photo viewer and close it.
+# DESTRUCTIVE: a controlled task cannot be reverted. Use a task that is still
+# pending today (maestro test ... -e TASK="..." to choose another one).
+# Resumable: signing / controlling are skipped when already done for the task.
+appId: com.mycawan.haccp.preprod
+name: "C&D 06 - Sign + photo + Control (Compliant) + photo"
+tags: [smoke, regression, cleaning, e2e, destructive]
+env:
+  USER_NAME: ${USER_NAME || "Antoine.*GRIEZMANN"}
+  USER_PIN: ${USER_PIN || "1234"}
+  TASK: ${TASK || "BRULEURS"}
+---
+- runFlow: subflows/login.yaml
+- runFlow: subflows/open_cleaning_module.yaml
+
+# --- Sign + sign-side photo (skipped when the task is already signed) ---
+- runFlow:
+    file: subflows/count_in_row.yaml
+    env:
+      TARGET: "Sign"
+- evalScript: ${output.needsSign = output.inRow > 0}
+- runFlow:
+    when:
+      true: ${output.needsSign == true}
+    commands:
+      - runFlow: subflows/sign_task.yaml
+      - runFlow:
+          file: subflows/add_photo.yaml
+          env:
+            SIDE: "sign"
+
+# --- Control (Compliant) + control-side photo (control skipped when already done) ---
+- runFlow:
+    file: subflows/count_in_row.yaml
+    env:
+      TARGET: "Control"
+- evalScript: ${output.needsControl = output.inRow > 0}
+- runFlow:
+    when:
+      true: ${output.needsControl == true}
+    file: subflows/control_task.yaml
+    env:
+      RESULT: "Compliant"
+- runFlow:
+    file: subflows/assert_row.yaml
+    env:
+      TARGET: "conform icon"
+      EXPECTED: "1"
+- runFlow:
+    file: subflows/add_photo.yaml
+    env:
+      SIDE: "control"
+
+# --- Re-open the control photo: viewer shows the picture + Close ---
+- runFlow:
+    file: subflows/tap_in_row.yaml
+    env:
+      TARGET: "icon"
+      OFFSET: "2"
+- extendedWaitUntil:
+    visible: "image"
+    timeout: 8000
+- assertVisible: "Close"
+- takeScreenshot: "screenshots/cd06_photo_viewer"
+- tapOn: "Close"
+- extendedWaitUntil:
+    visible: "Day of.*"
+    timeout: 5000

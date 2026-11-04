@@ -1,0 +1,26 @@
+# REGRESSION (negative result) - Sign a task with a photo and control it as Not compliant.
+# DESTRUCTIVE: pass -e TASK="..." with a task still pending today.
+appId: com.mycawan.haccp.preprod
+name: "C&D 07 - Sign + photo + Control (Not compliant)"
+tags: [regression, cleaning, e2e, destructive, negative]
+env:
+  USER_NAME: ${USER_NAME || "Antoine.*GRIEZMANN"}
+  USER_PIN: ${USER_PIN || "1234"}
+  TASK: ${TASK || "BUFFET"}
+---
+- runFlow: subflows/login.yaml
+- runFlow: subflows/open_cleaning_module.yaml
+- runFlow: subflows/sign_task.yaml
+- runFlow:
+    file: subflows/add_photo.yaml
+    env:
+      SIDE: "sign"
+- runFlow:
+    file: subflows/control_task.yaml
+    env:
+      RESULT: "Not compliant"
+- runFlow:
+    file: subflows/assert_row.yaml
+    env:
+      TARGET: "conform icon"
+      EXPECTED: "0"

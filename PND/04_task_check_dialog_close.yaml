@@ -1,0 +1,30 @@
+# REGRESSION (negative) - Open "Task check" and close it without choosing:
+# the task must stay uncontrolled.
+appId: com.mycawan.haccp.preprod
+name: "C&D 04 - Task check dialog can be dismissed"
+tags: [regression, cleaning, non-destructive, negative]
+env:
+  USER_NAME: ${USER_NAME || "Antoine.*GRIEZMANN"}
+  USER_PIN: ${USER_PIN || "1234"}
+  TASK: ${TASK || "FRIGO CUISINE"}
+---
+- runFlow: subflows/login.yaml
+- runFlow: subflows/open_cleaning_module.yaml
+- runFlow:
+    file: subflows/tap_in_row.yaml
+    env:
+      TARGET: "Control"
+      OFFSET: "1"
+- extendedWaitUntil:
+    visible: "Task check"
+    timeout: 8000
+- takeScreenshot: "screenshots/cd04_task_check"
+- tapOn: "Close icon"
+- extendedWaitUntil:
+    notVisible: "Task check"
+    timeout: 5000
+- runFlow:
+    file: subflows/assert_row.yaml
+    env:
+      TARGET: "Control"
+      EXPECTED: "1"
