@@ -1,0 +1,58 @@
+# REGRESSION (negative) - Keypad: Validate disabled when empty, erase key clears input,
+# Cancel closes without saving.
+appId: com.mycawan.haccp.preprod
+name: "COLD 05 - Cold keypad cancel / erase"
+tags: [regression, non-destructive, negative, cold]
+env:
+  USER_NAME: ${USER_NAME || "Antoine.*GRIEZMANN"}
+  USER_PIN: ${USER_PIN || "1234"}
+  EQUIPMENT: ${EQUIPMENT || "LOCAL POUBELLE"}
+---
+- runFlow: subflows/login.yaml
+- runFlow:
+    file: subflows/open_equipment_module.yaml
+    env:
+      MODULE: "Cold equipments"
+- runFlow: subflows/cold_open_equipment.yaml
+- copyTextFrom:
+    id: "com.mycawan.haccp.preprod:id/tvValue"
+    below: "Expected temperature"
+    optional: true
+- evalScript: ${output.before = maestro.copiedText || ""}
+- tapOn:
+    id: "com.mycawan.haccp.preprod:id/fet_mercury_temp"
+- extendedWaitUntil:
+    visible: "Provide the temperature"
+    timeout: 5000
+- assertVisible:
+    id: "com.mycawan.haccp.preprod:id/buttonOk"
+    enabled: false
+- tapOn:
+    id: "com.mycawan.haccp.preprod:id/btn"
+    text: "9"
+- tapOn:
+    id: "com.mycawan.haccp.preprod:id/btn"
+    text: "9"
+- assertVisible:
+    id: "com.mycawan.haccp.preprod:id/textViewValue"
+    text: "99.*"
+- assertVisible:
+    id: "com.mycawan.haccp.preprod:id/buttonOk"
+    enabled: true
+- tapOn:
+    id: "com.mycawan.haccp.preprod:id/buttonErase"
+- tapOn:
+    id: "com.mycawan.haccp.preprod:id/buttonErase"
+- assertVisible:
+    id: "com.mycawan.haccp.preprod:id/buttonOk"
+    enabled: false
+- tapOn:
+    id: "com.mycawan.haccp.preprod:id/btn"
+    text: "5"
+- tapOn:
+    id: "com.mycawan.haccp.preprod:id/buttonCancel"
+- extendedWaitUntil:
+    notVisible: "Provide the temperature"
+    timeout: 5000
+- assertNotVisible: "\\+5\\.0°C"
+- takeScreenshot: "screenshots/eq05_cancelled"

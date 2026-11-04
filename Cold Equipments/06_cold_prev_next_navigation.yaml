@@ -1,0 +1,38 @@
+# REGRESSION - Previous / next equipment navigation bar on the cold form.
+appId: com.mycawan.haccp.preprod
+name: "COLD 06 - Cold previous / next navigation"
+tags: [regression, non-destructive, cold]
+env:
+  USER_NAME: ${USER_NAME || "Antoine.*GRIEZMANN"}
+  USER_PIN: ${USER_PIN || "1234"}
+  EQUIPMENT: ${EQUIPMENT || "Chambre positive"}
+---
+- runFlow: subflows/login.yaml
+- runFlow:
+    file: subflows/open_equipment_module.yaml
+    env:
+      MODULE: "Cold equipments"
+- runFlow: subflows/cold_open_equipment.yaml
+- copyTextFrom:
+    id: "com.mycawan.haccp.preprod:id/tvEqNext"
+- evalScript: ${output.nextEq = maestro.copiedText.trim()}
+- tapOn:
+    id: "com.mycawan.haccp.preprod:id/llEqNext"
+- extendedWaitUntil:
+    visible:
+      id: "com.mycawan.haccp.preprod:id/tvValue"
+      text: "${output.nextEq}\\s*"
+    timeout: 5000
+- assertVisible:
+    id: "com.mycawan.haccp.preprod:id/tvEqPrev"
+    text: "${EQUIPMENT}\\s*"
+- tapOn:
+    id: "com.mycawan.haccp.preprod:id/llEqPrev"
+- extendedWaitUntil:
+    visible:
+      id: "com.mycawan.haccp.preprod:id/tvValue"
+      text: "${EQUIPMENT}\\s*"
+    timeout: 5000
+- tapOn:
+    id: "com.mycawan.haccp.preprod:id/llBackClick"
+- assertVisible: "List of cold equipments.*"
