@@ -1,0 +1,20 @@
+# In the Cold equipments list, opens ${EQUIPMENT}'s temperature form.
+# env: EQUIPMENT (label as shown in the list, regex allowed)
+appId: com.mycawan.haccp.preprod
+---
+- scrollUntilVisible:
+    element:
+      id: "com.mycawan.haccp.preprod:id/tvTitleLabel"
+      text: ${EQUIPMENT}
+    direction: DOWN
+    timeout: 15000
+- tapOn:
+    id: "com.mycawan.haccp.preprod:id/tvTitleLabel"
+    text: ${EQUIPMENT}
+- extendedWaitUntil:
+    visible:
+      id: "com.mycawan.haccp.preprod:id/tvValue"
+      text: ${EQUIPMENT}
+    timeout: 8000
+- assertVisible: "Expected temperature"
+- assertVisible: "Signatory"

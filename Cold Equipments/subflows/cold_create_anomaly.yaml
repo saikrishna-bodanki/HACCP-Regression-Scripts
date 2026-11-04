@@ -1,0 +1,74 @@
+# Fills, saves and closes the cold-equipment anomaly opened by "Create the anomaly".
+# env: PRODUCT_TEMP (e.g. "6"), BECOMING ("Moved" | "Used" | "Thrown"),
+#      CAUSE (e.g. "Porte mal fermée"), ACTION (e.g. "Fermeture porte")
+appId: com.mycawan.haccp.preprod
+---
+- tapOn: "Create the anomaly"
+- extendedWaitUntil:
+    visible: "Opened anomaly"
+    timeout: 8000
+- assertVisible: "Missing informations :"
+# Save / Close are disabled until the mandatory fields are filled
+- assertVisible:
+    id: "com.mycawan.haccp.preprod:id/flBtnSave"
+    enabled: false
+
+- tapOn:
+    id: "com.mycawan.haccp.preprod:id/fetTempPrd"
+- runFlow:
+    file: enter_temperature.yaml
+    env:
+      TEMP: ${PRODUCT_TEMP}
+
+- tapOn:
+    id: "com.mycawan.haccp.preprod:id/fetDevenirPrd"
+- extendedWaitUntil:
+    visible: "Choose the becoming of the product"
+    timeout: 5000
+- tapOn:
+    id: "com.mycawan.haccp.preprod:id/tvLabel"
+    text: ${BECOMING}
+
+- tapOn:
+    id: "com.mycawan.haccp.preprod:id/ibCauseAdd"
+- extendedWaitUntil:
+    visible: "Select a cause"
+    timeout: 5000
+- scrollUntilVisible:
+    element: ${CAUSE}
+    timeout: 10000
+- tapOn: ${CAUSE}
+
+- tapOn:
+    id: "com.mycawan.haccp.preprod:id/ibActionAdd"
+- extendedWaitUntil:
+    visible: "Select an action"
+    timeout: 5000
+- scrollUntilVisible:
+    element: ${ACTION}
+    timeout: 10000
+- tapOn: ${ACTION}
+
+- assertNotVisible: "Missing informations :"
+- assertVisible: ${CAUSE}
+- assertVisible: ${ACTION}
+- tapOn:
+    id: "com.mycawan.haccp.preprod:id/flBtnSave"
+    enabled: true
+- waitForAnimationToEnd
+- takeScreenshot: "screenshots/cold_anomaly_saved"
+
+- tapOn:
+    id: "com.mycawan.haccp.preprod:id/flBtnClose"
+    enabled: true
+- extendedWaitUntil:
+    visible: "Close anomaly"
+    timeout: 5000
+- assertVisible: "This open anomaly will be closed.*"
+- tapOn:
+    text: "Validate"
+    below: "Close anomaly"
+- extendedWaitUntil:
+    visible: "Closed Anomaly"
+    timeout: 8000
+- takeScreenshot: "screenshots/cold_anomaly_closed"

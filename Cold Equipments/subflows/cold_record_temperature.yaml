@@ -1,0 +1,16 @@
+# Records ${TEMP} on the open cold equipment form.
+# env: TEMP
+appId: com.mycawan.haccp.preprod
+---
+# Untick "currently empty" if it is ticked (it locks the temperature field)
+- runFlow:
+    when:
+      visible:
+        id: "com.mycawan.haccp.preprod:id/cbNoData"
+        checked: true
+    commands:
+      - tapOn:
+          id: "com.mycawan.haccp.preprod:id/cbNoData"
+- tapOn:
+    id: "com.mycawan.haccp.preprod:id/fet_mercury_temp"
+- runFlow: enter_temperature.yaml
