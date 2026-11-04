@@ -1,0 +1,11 @@
+# Scrolls the task list until ${TASK} is on screen (centered, so the next row is visible too).
+# env: TASK (exact task name, regex allowed)
+appId: com.mycawan.haccp.preprod
+---
+- scrollUntilVisible:
+    element:
+      text: ${TASK}
+    direction: DOWN
+    timeout: 15000
+    centerElement: true
+- assertVisible: ${TASK}

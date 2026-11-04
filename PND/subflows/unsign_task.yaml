@@ -1,0 +1,17 @@
+# Opens "Signing cancellation" on ${TASK} and either cancels or confirms.
+# env: TASK, DECISION ("Cancel" | "Confirm")
+appId: com.mycawan.haccp.preprod
+---
+- runFlow:
+    file: tap_in_row.yaml
+    env:
+      TARGET: "undo icon"
+      OFFSET: "1"
+- extendedWaitUntil:
+    visible: "Signing cancellation"
+    timeout: 8000
+- assertVisible: "You are going to unsign this task.*"
+- tapOn: ${DECISION}
+- extendedWaitUntil:
+    notVisible: "Signing cancellation"
+    timeout: 8000

@@ -1,0 +1,8 @@
+# Asserts how many ${TARGET} elements ${TASK}'s own row contains.
+# env: TASK, TARGET, EXPECTED (number as string)
+appId: com.mycawan.haccp.preprod
+---
+- runFlow: count_in_row.yaml
+- assertTrue:
+    condition: ${output.inRow == Number(EXPECTED)}
+    label: "Row '${TASK}' contains ${EXPECTED} x '${TARGET}'"

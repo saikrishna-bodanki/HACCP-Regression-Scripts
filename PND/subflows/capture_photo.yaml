@@ -1,0 +1,15 @@
+# Takes a picture with the in-app camera and returns to the planning list.
+appId: com.mycawan.haccp.preprod
+---
+- extendedWaitUntil:
+    visible:
+      id: "com.mycawan.haccp.preprod:id/llTakePictureBtn"
+    timeout: 10000
+- assertVisible:
+    id: "com.mycawan.haccp.preprod:id/ivClose"
+- tapOn:
+    id: "com.mycawan.haccp.preprod:id/llTakePictureBtn"
+    label: "Shutter"
+- extendedWaitUntil:
+    visible: "Day of.*"
+    timeout: 15000

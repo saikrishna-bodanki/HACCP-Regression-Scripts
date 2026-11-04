@@ -1,0 +1,19 @@
+# From the HACCP home, opens "Cleaning and disinfection planning" on the Today tab.
+appId: com.mycawan.haccp.preprod
+---
+- runFlow:
+    when:
+      notVisible: "Day of.*"
+    commands:
+      - scrollUntilVisible:
+          element: "Cleaning and.*disinfection planning"
+          direction: DOWN
+          timeout: 10000
+      - tapOn: "Cleaning and.*disinfection planning"
+
+- extendedWaitUntil:
+    visible: "Day of.*"
+    timeout: 10000
+- assertVisible: "Cleaning and disinfection planning"
+- tapOn: "Today"
+- assertVisible: "Tasks"

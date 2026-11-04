@@ -1,0 +1,70 @@
+# Counts ${TARGET} elements inside ${TASK}'s own row.
+#
+# Why: the planning list is a flat Compose hierarchy (rows are not containers), and
+# Maestro relative selectors (above/below/rightOf) are evaluated against ALL anchor
+# matches and return the first match in hierarchy order - so "Sign rightOf BRULEURS"
+# hits the Sign of any pending row above it. Rows are delimited with the "i" badges:
+#   total  = all ${TARGET} on screen
+#   before = ${TARGET} above TASK's own "i" badge        (previous rows)
+#   after  = ${TARGET} below the next row's "i" badge    (next rows)
+#   inRow  = total - before - after
+# Rows render top-to-bottom, so TASK's elements are the indexes
+# [before .. before + inRow - 1] of a plain "text: ${TARGET}" selector.
+#
+# Outputs: output.total, output.before, output.after, output.inRow
+# env: TASK (task name regex - must be UNIQUE on screen), TARGET
+appId: com.mycawan.haccp.preprod
+---
+- runFlow: locate_task.yaml
+
+- evalScript: ${output.total = 0}
+- repeat:
+    times: 40
+    while:
+      visible:
+        text: ${TARGET}
+        index: ${output.total}
+    commands:
+      - evalScript: ${output.total = output.total + 1}
+
+# previous rows: above TASK's own "i" (the lowest "i" above the task name)
+- evalScript: ${output.before = 0}
+- runFlow:
+    when:
+      visible:
+        text: "i"
+        above: ${TASK}
+    commands:
+      - repeat:
+          times: 40
+          while:
+            visible:
+              text: ${TARGET}
+              index: ${output.before}
+              above:
+                text: "i"
+                above: ${TASK}
+          commands:
+            - evalScript: ${output.before = output.before + 1}
+
+# next rows: below the next row's "i" (the highest "i" below the task name)
+- evalScript: ${output.after = 0}
+- runFlow:
+    when:
+      visible:
+        text: "i"
+        below: ${TASK}
+    commands:
+      - repeat:
+          times: 40
+          while:
+            visible:
+              text: ${TARGET}
+              index: ${output.after}
+              below:
+                text: "i"
+                below: ${TASK}
+          commands:
+            - evalScript: ${output.after = output.after + 1}
+
+- evalScript: ${output.inRow = output.total - output.before - output.after}

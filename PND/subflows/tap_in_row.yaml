@@ -1,0 +1,23 @@
+# Taps the ${OFFSET}-th-from-last ${TARGET} of ${TASK}'s row (see count_in_row.yaml).
+# env:
+#   TASK    task name regex (unique on screen)
+#   TARGET  "Sign" | "Control" | "icon" (camera/comment buttons) | "undo icon"
+#   OFFSET  1 = last ${TARGET} of the row, 2 = second to last, ...
+#           camera icons: signed row     -> [sign cam, sign comment]             sign cam = 2
+#                         controlled row -> [sign cam, sign comment, ctrl cam, ctrl comment]
+#                                                                                 ctrl cam = 2
+appId: com.mycawan.haccp.preprod
+---
+- runFlow: count_in_row.yaml
+
+- assertTrue:
+    condition: ${output.inRow >= Number(OFFSET)}
+    label: "Row '${TASK}' must contain '${TARGET}'"
+
+- evalScript: ${output.targetIndex = output.before + output.inRow - Number(OFFSET)}
+
+- tapOn:
+    text: ${TARGET}
+    index: ${output.targetIndex}
+    retryTapIfNoChange: false
+    label: "Tap ${TARGET} in row ${TASK}"

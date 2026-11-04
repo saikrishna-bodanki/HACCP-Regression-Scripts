@@ -1,0 +1,28 @@
+# Controls ${TASK} through the "Task check" dialog.
+# env: TASK, RESULT ("Compliant" | "Not compliant")
+appId: com.mycawan.haccp.preprod
+---
+# Fails with "Row '<TASK>' must contain 'Control'" if the task is already controlled
+- runFlow:
+    file: tap_in_row.yaml
+    env:
+      TARGET: "Control"
+      OFFSET: "1"
+- extendedWaitUntil:
+    visible: "Task check"
+    timeout: 8000
+- assertVisible: "Select the result"
+- assertVisible: "Compliant"
+- assertVisible: "Not compliant"
+- tapOn: ${RESULT}
+- extendedWaitUntil:
+    notVisible: "Task check"
+    timeout: 8000
+- assertVisible: "Controlled by.*"
+# The row has no Control button any more
+- runFlow:
+    file: assert_row.yaml
+    env:
+      TARGET: "Control"
+      EXPECTED: "0"
+- takeScreenshot: "screenshots/${TASK}_controlled"

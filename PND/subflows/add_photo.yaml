@@ -1,0 +1,13 @@
+# Adds a photo to ${TASK} on the sign side or the control side.
+# env: TASK, SIDE ("sign" = right after signing | "control" = after controlling)
+# In both states the wanted camera is the 2nd-to-last "icon" of the row
+# (row icons: [sign cam, sign comment] or [sign cam, sign comment, ctrl cam, ctrl comment]).
+appId: com.mycawan.haccp.preprod
+---
+- runFlow:
+    file: tap_in_row.yaml
+    env:
+      TARGET: "icon"
+      OFFSET: "2"
+- runFlow: capture_photo.yaml
+- takeScreenshot: "screenshots/${TASK}_${SIDE}_photo"

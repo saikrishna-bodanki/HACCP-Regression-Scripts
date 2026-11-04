@@ -1,0 +1,21 @@
+# Signs ${TASK} and checks that its row switched to the "Done by ..." state.
+# env: TASK
+appId: com.mycawan.haccp.preprod
+---
+# Fails with "Row '<TASK>' must contain 'Sign'" if the task is already signed
+- runFlow:
+    file: tap_in_row.yaml
+    env:
+      TARGET: "Sign"
+      OFFSET: "1"
+- extendedWaitUntil:
+    visible: "undo icon"
+    timeout: 8000
+- assertVisible: "Done by.*"
+# The row has no Sign button any more
+- runFlow:
+    file: assert_row.yaml
+    env:
+      TARGET: "Sign"
+      EXPECTED: "0"
+- takeScreenshot: "screenshots/${TASK}_signed"
