@@ -1,0 +1,22 @@
+# Hot equipments: "Add an operation" and pick ${EQUIPMENT}.
+# env: EQUIPMENT
+appId: com.mycawan.haccp.preprod
+---
+- tapOn:
+    id: "com.mycawan.haccp.preprod:id/btnAdd"
+- extendedWaitUntil:
+    visible: "Select the equipment to check"
+    timeout: 5000
+- tapOn:
+    id: "com.mycawan.haccp.preprod:id/tvLabel"
+    text: ${EQUIPMENT}
+- extendedWaitUntil:
+    visible: "Hot equipment check details"
+    timeout: 8000
+- assertVisible: "Not finalized"
+- assertVisible: "Provide the temperature"
+- assertVisible: "Expected temperature between.*"
+# Validate is disabled until a temperature is typed
+- assertVisible:
+    id: "com.mycawan.haccp.preprod:id/flBtnValid"
+    enabled: false
