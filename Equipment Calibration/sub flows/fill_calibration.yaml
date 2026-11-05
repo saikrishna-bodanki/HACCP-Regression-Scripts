@@ -1,0 +1,41 @@
+# Fills the open calibration form: method, slider position, optional comment.
+# env:
+#   METHOD   method button text, e.g. "Eau / Glace", "Etalon", "Poids de référence"
+#   SLIDER   "zero"  -> keep 0°C (thumb starts in the middle) -> compliant
+#            "plus"  -> drag thumb to 80% of the width (about +1.5°C) -> invalid on Thermomètre A
+#            "minus" -> drag thumb to 20% of the width (about -1.5°C) -> invalid on Thermomètre A
+#            (Maestro needs literal swipe coordinates, so the positions are fixed here)
+#   COMMENT  optional comment ("" to skip)
+appId: com.mycawan.haccp.preprod
+---
+- tapOn: ${METHOD}
+# The calibration slider and result banner appear once a method is chosen
+- extendedWaitUntil:
+    visible: "Calibration"
+    timeout: 5000
+- assertVisible: "Compliant result|Invalid temperature"
+- runFlow:
+    when:
+      true: ${SLIDER == "plus"}
+    commands:
+      - swipe:
+          start: "50%, 49%"
+          end: "80%, 49%"
+          duration: 800
+      - waitForAnimationToEnd
+- runFlow:
+    when:
+      true: ${SLIDER == "minus"}
+    commands:
+      - swipe:
+          start: "50%, 49%"
+          end: "20%, 49%"
+          duration: 800
+      - waitForAnimationToEnd
+- runFlow:
+    when:
+      true: ${COMMENT != ""}
+    commands:
+      - tapOn: "Comment"
+      - inputText: ${COMMENT}
+      - hideKeyboard

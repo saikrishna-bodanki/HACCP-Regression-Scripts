@@ -1,0 +1,14 @@
+# "Add an operation" -> choose ${EQUIPMENT} -> calibration form opens.
+# env: EQUIPMENT (e.g. "Thermomètre A")
+appId: com.mycawan.haccp.preprod
+---
+- tapOn: "Add an operation"
+- extendedWaitUntil:
+    visible: "Choose a calibration equipment"
+    timeout: 5000
+- tapOn: ${EQUIPMENT}
+- extendedWaitUntil:
+    visible: "Calibration - ${EQUIPMENT}"
+    timeout: 8000
+- assertVisible: "Method"
+- assertVisible: "Add a comment"
