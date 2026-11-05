@@ -1,0 +1,39 @@
+# REGRESSION - Hot equipment: start a check, Delete -> "Deletion" dialog,
+# Cancel keeps it open, Delete removes it. Leaves no data behind.
+appId: com.mycawan.haccp.preprod
+name: "HOT 04 - Hot check deletion"
+tags: [regression, non-destructive, hot]
+env:
+  USER_NAME: ${USER_NAME || "Antoine.*GRIEZMANN"}
+  USER_PIN: ${USER_PIN || "1234"}
+  EQUIPMENT: ${EQUIPMENT || "Bain Remise en T°"}
+  TEMP: ${TEMP || "85.5"}
+---
+- runFlow: subflows/login.yaml
+- runFlow:
+    file: subflows/open_equipment_module.yaml
+    env:
+      MODULE: "Hot equipments"
+- runFlow: subflows/hot_start_check.yaml
+- tapOn:
+    id: "com.mycawan.haccp.preprod:id/fetTemp"
+- runFlow: subflows/enter_temperature.yaml
+- tapOn:
+    id: "com.mycawan.haccp.preprod:id/flBtnDelete"
+- extendedWaitUntil:
+    visible: "Deletion"
+    timeout: 5000
+- assertVisible: "You will remove this check"
+- tapOn:
+    text: "Cancel"
+    below: "You will remove this check"
+- assertVisible: "Hot equipment check details"
+- tapOn:
+    id: "com.mycawan.haccp.preprod:id/flBtnDelete"
+- tapOn:
+    text: "Delete"
+    below: "You will remove this check"
+- extendedWaitUntil:
+    visible: "List of temperature checks.*"
+    timeout: 8000
+- assertNotVisible: "\\+${TEMP}°C"
