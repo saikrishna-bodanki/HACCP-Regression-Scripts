@@ -1,0 +1,41 @@
+# REGRESSION (negative) - Change a record's value then leave with Back:
+# the change is NOT saved (list value unchanged).
+appId: com.mycawan.haccp.preprod
+name: "CAL 06 - Back discards unsaved changes"
+tags: [regression, calibration, negative, non-destructive]
+env:
+  USER_NAME: ${USER_NAME || "Antoine.*GRIEZMANN"}
+  USER_PIN: ${USER_PIN || "1234"}
+  EQUIPMENT: ${EQUIPMENT || "Thermomètre A"}
+---
+- runFlow: subflows/login.yaml
+- runFlow: subflows/open_calibration_module.yaml
+- assertVisible: ${EQUIPMENT}
+# Value shown on the first record of the equipment (3rd line of the card)
+- copyTextFrom:
+    text: "-?[0-9]+\\.[0-9]"
+    below: ${EQUIPMENT}
+    index: 0
+- evalScript: ${output.valueBefore = maestro.copiedText}
+- tapOn:
+    text: ${EQUIPMENT}
+    index: 0
+- extendedWaitUntil:
+    visible: "Calibration - ${EQUIPMENT}"
+    timeout: 8000
+- swipe:
+    start: "50%, 49%"
+    end: "20%, 49%"
+    duration: 800
+- tapOn:
+    id: "com.mycawan.haccp.preprod:id/llBackClick"
+- extendedWaitUntil:
+    visible: "Calibration of equipments"
+    timeout: 5000
+- copyTextFrom:
+    text: "-?[0-9]+\\.[0-9]"
+    below: ${EQUIPMENT}
+    index: 0
+- assertTrue:
+    condition: ${maestro.copiedText == output.valueBefore}
+    label: "Value unchanged after Back (${output.valueBefore})"

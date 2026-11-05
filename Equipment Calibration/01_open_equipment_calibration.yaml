@@ -1,0 +1,25 @@
+# SMOKE - Open Equipment calibration, open the equipment picker, check its content, close it.
+appId: com.mycawan.haccp.preprod
+name: "CAL 01 - Open Equipment calibration"
+tags: [smoke, regression, calibration, non-destructive]
+env:
+  USER_NAME: ${USER_NAME || "Antoine.*GRIEZMANN"}
+  USER_PIN: ${USER_PIN || "1234"}
+---
+- runFlow: subflows/login.yaml
+- runFlow: subflows/open_calibration_module.yaml
+- assertVisible: "No data|Thermomètre.*"
+- takeScreenshot: "screenshots/cal01_list"
+- tapOn: "Add an operation"
+- extendedWaitUntil:
+    visible: "Choose a calibration equipment"
+    timeout: 5000
+- assertVisible: "Thermomètre A"
+- assertVisible: "Thermomètre cheap"
+- assertVisible: "Thermomètre numérique"
+- takeScreenshot: "screenshots/cal01_picker"
+- tapOn: "Close icon"
+- extendedWaitUntil:
+    notVisible: "Choose a calibration equipment"
+    timeout: 5000
+- assertVisible: "Calibration of equipments"

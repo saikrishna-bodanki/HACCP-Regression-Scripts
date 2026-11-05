@@ -1,0 +1,31 @@
+# REGRESSION - Calibrate an equipment at 0°C -> "Compliant result" -> Validate -> listed with 0.0.
+# DESTRUCTIVE: adds a calibration record.
+appId: com.mycawan.haccp.preprod
+name: "CAL 03 - Compliant calibration"
+tags: [smoke, regression, calibration, destructive]
+env:
+  USER_NAME: ${USER_NAME || "Antoine.*GRIEZMANN"}
+  USER_PIN: ${USER_PIN || "1234"}
+  EQUIPMENT: ${EQUIPMENT || "Thermomètre A"}
+  METHOD: ${METHOD || "Eau / Glace"}
+  COMMENT: ${COMMENT || "Maestro regression - compliant calibration"}
+---
+- runFlow: subflows/login.yaml
+- runFlow: subflows/open_calibration_module.yaml
+- runFlow: subflows/start_calibration.yaml
+- runFlow:
+    file: subflows/fill_calibration.yaml
+    env:
+      SLIDER: "zero"
+- assertVisible: "Compliant result"
+- assertVisible: "0°C"
+- assertVisible: ${COMMENT}
+- takeScreenshot: "screenshots/cal03_compliant"
+- tapOn: "Validate"
+- extendedWaitUntil:
+    visible: "Calibration of equipments"
+    timeout: 8000
+- assertVisible: ${EQUIPMENT}
+- assertVisible:
+    text: "0\\.0"
+    below: ${EQUIPMENT}
