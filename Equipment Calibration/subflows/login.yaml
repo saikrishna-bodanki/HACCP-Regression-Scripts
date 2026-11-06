@@ -1,0 +1,37 @@
+# Launches mycawan HACCP (preprod) and unlocks it with the user's PIN.
+# Safe to call when the app is already unlocked (it just lands on the HACCP home).
+# env: USER_NAME (regex, e.g. "Antoine.*GRIEZMANN"), USER_PIN (e.g. "1234")
+appId: com.mycawan.haccp.preprod
+---
+- launchApp:
+    stopApp: true
+    permissions:
+      camera: allow
+
+- extendedWaitUntil:
+    visible: "Pick your name|mycawan HACCP"
+    timeout: 20000
+
+- runFlow:
+    when:
+      visible: "Pick your name"
+    commands:
+      - tapOn:
+          text: ${USER_NAME}
+          label: "Pick user ${USER_NAME}"
+      - extendedWaitUntil:
+          visible: "Hello"
+          timeout: 8000
+      # Type the PIN digit by digit on the keypad
+      - evalScript: ${output.pinIdx = 0}
+      - repeat:
+          times: ${USER_PIN.length}
+          commands:
+            - tapOn:
+                text: ${USER_PIN.charAt(output.pinIdx)}
+                label: "PIN digit"
+            - evalScript: ${output.pinIdx = output.pinIdx + 1}
+
+- extendedWaitUntil:
+    visible: "mycawan HACCP"
+    timeout: 20000
