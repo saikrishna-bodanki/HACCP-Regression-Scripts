@@ -1,0 +1,13 @@
+# "Add an operation" -> picks template ${TEMPLATE} -> checklist form (nothing saved yet).
+# env: TEMPLATE
+appId: com.mycawan.haccp.preprod
+---
+- tapOn: "Add an operation"
+- extendedWaitUntil:
+    visible: "Checklist templates"
+    timeout: 8000
+- tapOn: ${TEMPLATE}
+- extendedWaitUntil:
+    visible: "Creation date : .*"
+    timeout: 10000
+- assertVisible: ${TEMPLATE}

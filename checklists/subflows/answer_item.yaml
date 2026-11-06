@@ -1,0 +1,13 @@
+# Answers the item under section heading ${SECTION}.
+# env: SECTION (e.g. "Open à 10H00"), ANSWER ("Yes" | "No" | "not evaluated")
+appId: com.mycawan.haccp.preprod
+---
+- scrollUntilVisible:
+    element: ${SECTION}
+    direction: DOWN
+    centerElement: true
+    timeout: 10000
+- tapOn:
+    text: ${ANSWER}
+    below: ${SECTION}
+    label: "${ANSWER} for ${SECTION}"

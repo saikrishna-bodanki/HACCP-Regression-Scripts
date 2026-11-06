@@ -1,0 +1,22 @@
+# From the HACCP home, opens "Checklists" (list of today's checklists).
+appId: com.mycawan.haccp.preprod
+---
+- runFlow:
+    when:
+      notVisible: "mycawan HACCP"
+    commands:
+      - tapOn:
+          id: "com.mycawan.haccp.preprod:id/llHomeClick"
+          optional: true
+      - extendedWaitUntil:
+          visible: "mycawan HACCP"
+          timeout: 10000
+- scrollUntilVisible:
+    element: "Checklists"
+    direction: DOWN
+    timeout: 10000
+- tapOn: "Checklists"
+- extendedWaitUntil:
+    visible: "List of checklists"
+    timeout: 15000
+- assertVisible: "Add an operation"

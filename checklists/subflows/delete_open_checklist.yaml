@@ -1,0 +1,17 @@
+# Deletes the checklist currently open (must be saved, not validated) and returns to the list.
+appId: com.mycawan.haccp.preprod
+---
+- scrollUntilVisible:
+    element: "Delete"
+    direction: DOWN
+    timeout: 8000
+- tapOn: "Delete"
+- extendedWaitUntil:
+    visible: "Deletion"
+    timeout: 5000
+- assertVisible: "You will delete this checklist.*"
+- tapOn:
+    id: "com.mycawan.haccp.preprod:id/btnConfirmDanger"
+- extendedWaitUntil:
+    visible: "List of checklists"
+    timeout: 10000

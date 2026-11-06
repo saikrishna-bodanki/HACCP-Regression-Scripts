@@ -1,0 +1,14 @@
+# Back arrow from a checklist; answers the "Data not saved" dialog with ${ON_UNSAVED} (Exit|Stay) if shown.
+# env: ON_UNSAVED (default Exit)
+appId: com.mycawan.haccp.preprod
+---
+- tapOn:
+    point: "16%,4%"                   # back arrow in the top bar
+    label: "Back"
+- waitForAnimationToEnd
+- runFlow:
+    when:
+      visible: "Data not saved"
+    commands:
+      - tapOn: ${ON_UNSAVED || "Exit"}
+- waitForAnimationToEnd
