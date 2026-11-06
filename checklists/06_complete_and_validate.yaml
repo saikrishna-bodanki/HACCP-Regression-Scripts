@@ -1,0 +1,45 @@
+appId: com.mycawan.haccp.preprod
+name: "CHK 06 - Complete and validate checklist"
+tags: [regression, checklists, destructive]
+env:
+  USER_NAME: ${USER_NAME || "Antoine.*GRIEZMANN"}
+  USER_PIN: ${USER_PIN || "1234"}
+  TEMPLATE: ${TEMPLATE || "Contrôle et sécurité des toilettes clients"}
+---
+- runFlow: subflows/login.yaml
+- runFlow: subflows/open_checklists_module.yaml
+# Leaves a VALIDATED checklist on the server (cannot be deleted from the app).
+- runFlow: subflows/start_checklist.yaml
+- runFlow:
+    file: subflows/answer_item.yaml
+    env: {SECTION: "Open à 10H00", ANSWER: "Yes"}
+- runFlow:
+    file: subflows/answer_item.yaml
+    env: {SECTION: "10H00 à 14H00", ANSWER: "Yes"}
+- runFlow:
+    file: subflows/answer_item.yaml
+    env: {SECTION: "14H00 à 18H00", ANSWER: "Yes"}
+- runFlow:
+    file: subflows/answer_item.yaml
+    env: {SECTION: "18H00 à Close", ANSWER: "Yes"}
+- assertVisible: "100.0%"
+- tapOn: "Your comments"
+- inputText: "Maestro regression"
+- hideKeyboard
+- tapOn: "Save"
+- extendedWaitUntil: {visible: "Validate", timeout: 8000}
+- tapOn: "Validate"
+- extendedWaitUntil: {visible: "Is this checklist complete\\?", timeout: 5000}
+- tapOn:
+    text: "Validate"
+    below: "Is this checklist complete\\?"
+- waitForAnimationToEnd
+- takeScreenshot: "screenshots/CHK06_after_validate"
+- runFlow:
+    when:
+      notVisible: "List of checklists"
+    commands:
+      - runFlow: subflows/back_to_list.yaml
+- extendedWaitUntil: {visible: "List of checklists", timeout: 8000}
+- assertVisible: "100.0%"
+- takeScreenshot: "screenshots/CHK06_list_validated"
