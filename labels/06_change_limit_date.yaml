@@ -1,0 +1,44 @@
+appId: com.mycawan.haccp.preprod
+name: "LAB 06 - Change limit date (UBD days)"
+tags: [regression, labels]
+env:
+  USER_NAME: ${USER_NAME || "Antoine.*GRIEZMANN"}
+  USER_PIN: ${USER_PIN || "1234"}
+  PRODUCT: ${PRODUCT || "Champignons"}
+  UBD_DAYS: ${UBD_DAYS || "1"}
+---
+- runFlow: subflows/login.yaml
+- runFlow: subflows/open_labels_module.yaml
+- runFlow: subflows/open_print_parameters.yaml
+- runFlow:
+    file: subflows/date_plus_days.yaml
+    env: {DAYS: "${UBD_DAYS}"}
+- assertVisible: ${output.dateStr}    # default limit date = today + product UBD
+- tapOn: "UBD \\(.*\\)"
+- extendedWaitUntil:
+    visible: "Change limit date"
+    timeout: 5000
+- assertVisible: "Days"
+# +1 day
+- tapOn: {point: "60%,49%", label: "Days plus"}
+- runFlow:
+    file: subflows/date_plus_days.yaml
+    env: {DAYS: "${Number(UBD_DAYS) + 1}"}
+- assertVisible: ${output.dateStr}
+- takeScreenshot: "screenshots/LAB06_plus_one_day"
+# Down to the minimum (0 days = today); extra taps must not go below
+- repeat:
+    times: ${Number(UBD_DAYS) + 3}
+    commands:
+      - tapOn: {point: "40%,49%", label: "Days minus"}
+- assertVisible: "0"
+- runFlow:
+    file: subflows/date_plus_days.yaml
+    env: {DAYS: "0"}
+- assertVisible: ${output.dateStr}
+- tapOn: "Cancel"
+- extendedWaitUntil:
+    notVisible: "Change limit date"
+    timeout: 5000
+- assertVisible: "Parameters for the label to print"
+- tapOn: "Cancel"

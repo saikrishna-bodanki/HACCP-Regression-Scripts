@@ -1,0 +1,14 @@
+appId: com.mycawan.haccp.preprod
+name: "LAB 01 - Open Labels"
+tags: [smoke, regression, labels]
+env:
+  USER_NAME: ${USER_NAME || "Antoine.*GRIEZMANN"}
+  USER_PIN: ${USER_PIN || "1234"}
+---
+- runFlow: subflows/login.yaml
+- runFlow: subflows/open_labels_module.yaml
+- assertVisible: "Labels"
+- assertVisible: "Bluetooth is disabled|Printer :"
+- assertVisible: "UBD : .*"           # at least one product card
+- assertVisible: "Print"              # print-queue FAB (a11y)
+- takeScreenshot: "screenshots/LAB01_labels_home"
