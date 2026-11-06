@@ -1,0 +1,24 @@
+# From the HACCP home, opens "Labels" (Product tab selected).
+appId: com.mycawan.haccp.preprod
+---
+- runFlow:
+    when:
+      notVisible: "mycawan HACCP"
+    commands:
+      - tapOn:
+          id: "com.mycawan.haccp.preprod:id/llHomeClick"
+          optional: true
+      - extendedWaitUntil:
+          visible: "mycawan HACCP"
+          timeout: 10000
+- scrollUntilVisible:
+    element: "Labels"
+    direction: DOWN
+    timeout: 10000
+- tapOn: "Labels"
+- extendedWaitUntil:
+    visible: "Product"
+    timeout: 15000
+- assertVisible: "Production"
+- assertVisible: "INCO"
+- assertVisible: "Printer :"

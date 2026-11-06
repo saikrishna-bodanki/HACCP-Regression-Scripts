@@ -1,0 +1,14 @@
+# Taps product ${PRODUCT} on the Product tab and waits for the print parameters dialog.
+# env: PRODUCT
+appId: com.mycawan.haccp.preprod
+---
+- scrollUntilVisible:
+    element: ${PRODUCT}
+    direction: DOWN
+    timeout: 15000
+- tapOn: ${PRODUCT}
+- extendedWaitUntil:
+    visible: "Parameters for the label to print"
+    timeout: 8000
+- assertVisible: "Add label to print queue"
+- assertVisible: "Number of copy"

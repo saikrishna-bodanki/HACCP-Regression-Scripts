@@ -1,0 +1,6 @@
+# Computes today + ${DAYS} as dd/MM/yyyy into output.dateStr (device and host on the same timezone).
+# env: DAYS
+appId: com.mycawan.haccp.preprod
+---
+- evalScript: ${output.ts = Date.now() + Number(DAYS) * 86400000}
+- evalScript: ${output.dateStr = ('0' + new Date(output.ts).getDate()).slice(-2) + '/' + ('0' + (new Date(output.ts).getMonth() + 1)).slice(-2) + '/' + new Date(output.ts).getFullYear()}

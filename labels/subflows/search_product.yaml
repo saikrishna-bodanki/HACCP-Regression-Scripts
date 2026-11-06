@@ -1,0 +1,19 @@
+# Opens the search bar (if needed) and types ${QUERY}.
+# env: QUERY
+appId: com.mycawan.haccp.preprod
+---
+- runFlow:
+    when:
+      notVisible: "Search"
+    commands:
+      - tapOn:
+          point: "86%,32%"          # search icon button (a11y "icon", no text)
+          label: "Open search"
+      - extendedWaitUntil:
+          visible: "Search"
+          timeout: 5000
+- tapOn: "Search"
+- eraseText: 30
+- inputText: ${QUERY}
+- hideKeyboard
+- waitForAnimationToEnd
